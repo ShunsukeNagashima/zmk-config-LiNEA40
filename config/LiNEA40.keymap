@@ -57,7 +57,7 @@
         layers = <SCROLL>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,
             <&zip_xy_to_scroll_mapper>;
     };
 };
@@ -86,11 +86,6 @@
             key-positions = <17 16>;
         };
 
-        RightClick {
-            bindings = <&mkp MB2>;
-            key-positions = <18 17>;
-        };
-
         PrevClick {
             bindings = <&mkp MB4>;
             key-positions = <27 28>;
@@ -99,6 +94,41 @@
         ClickNext {
             bindings = <&mkp MB5>;
             key-positions = <26 27>;
+        };
+
+        inner_paren {
+            bindings = <&inner_paren>;
+            key-positions = <15 16>;
+        };
+
+        inner_brace {
+            bindings = <&inner_brace>;
+            key-positions = <17 18>;
+        };
+
+        inner_bracket {
+            bindings = <&inner_bracket>;
+            key-positions = <25 26>;
+        };
+
+        globe {
+            bindings = <&kp C_AC_NEXT_KEYBOARD_LAYOUT_SELECT>;
+            key-positions = <10 34>;
+        };
+
+        tilde {
+            bindings = <&kp TILDE>;
+            key-positions = <12 13>;
+        };
+
+        backspace {
+            bindings = <&kp BACKSPACE>;
+            key-positions = <8 9>;
+        };
+
+        return {
+            bindings = <&kp RETURN>;
+            key-positions = <18 19>;
         };
     };
 
