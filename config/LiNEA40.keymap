@@ -57,7 +57,7 @@
         layers = <SCROLL>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>;
     };
 };
@@ -257,10 +257,10 @@
 
         WIRELESS {
             bindings = <
-&bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                              &trans          &kp LC(LEFT_ARROW)  &kp LC(UP_ARROW)    &kp LC(RIGHT_ARROW)  &kp BACKSPACE
-&kp LEFT_GUI    &trans        &trans        &trans        &trans                                    &trans          &trans              &kp LC(DOWN_ARROW)  &kp UP_ARROW         &kp ENTER
-&kp LEFT_SHIFT  &trans        &trans        &trans        &trans                                    &trans          &trans              &kp LEFT_ARROW      &kp DOWN_ARROW       &kp RIGHT_ARROW
-&kp LCTRL       &trans        &trans        &trans        &bt BT_CLR    &bootloader    &bootloader  &studio_unlock                      &trans              &trans               &trans
+&bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                              &bt BT_SEL 0    &bt BT_SEL 1  &trans          &trans          &kp BACKSPACE
+&kp LEFT_GUI    &trans        &trans        &trans        &trans                                    &bt BT_CLR      &trans        &trans          &kp UP_ARROW    &kp ENTER
+&kp LEFT_SHIFT  &trans        &trans        &trans        &trans                                    &trans          &trans        &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW
+&kp LCTRL       &trans        &trans        &trans        &bt BT_CLR    &bootloader    &bootloader  &studio_unlock                &trans          &trans          &trans
             >;
 
             sensor-bindings = <&inc_dec_kp RIGHT_ARROW LEFT_ARROW>;
