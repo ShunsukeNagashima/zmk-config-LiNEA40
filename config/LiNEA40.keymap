@@ -57,7 +57,7 @@
         layers = <SCROLL>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>;
     };
 };
@@ -214,10 +214,10 @@
 
         default_layer {
             bindings = <
-&kp Q         &kp W         &kp E             &kp R    &kp T                                     &kp Y        &kp U  &kp I         &kp O          &kp P
-&kp A         &kp S         &kp D             &kp F    &kp G                                     &kp H        &kp J  &kp K         &kp L          &kp MINUS
-&kp Z         &kp X         &kp C             &kp V    &kp B                                     &kp N        &kp M  &kp COMMA     &kp DOT        &kp SLASH
-&kp LEFT_GUI  &kp LEFT_ALT  &kp LEFT_CONTROL  &kp INS  &kp LEFT_SHIFT  &lt 2 SPACE    &lt 4 TAB  &lt 3 ENTER         &lt 5 ESCAPE  &kp BACKSLASH  &kp SINGLE_QUOTE
+&kp Q         &kp W         &kp E             &kp R    &kp T                                         &kp Y        &kp U  &kp I         &kp O          &kp P
+&kp A         &kp S         &kp D             &kp F    &kp G                                         &kp H        &kp J  &kp K         &kp L          &kp MINUS
+&kp Z         &kp X         &kp C             &kp V    &kp B                                         &kp N        &kp M  &kp COMMA     &kp DOT        &kp SLASH
+&kp LEFT_GUI  &kp LEFT_ALT  &kp LEFT_CONTROL  &kp INS  &kp LEFT_SHIFT  &lt 2 SPACE    &kp BACKSPACE  &lt 3 ENTER         &lt 5 ESCAPE  &kp BACKSLASH  &kp SINGLE_QUOTE
             >;
 
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
@@ -234,10 +234,10 @@
 
         MARK {
             bindings = <
-&kp EXCLAMATION  &kp AT  &kp HASH  &kp DOLLAR  &kp PERCENT                    &kp CARET             &kp AMPERSAND          &kp ASTERISK    &kp MINUS  &kp EQUAL
-&trans           &trans  &trans    &kp GRAVE   &kp TILDE                      &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LEFT_BRACE  &kp RBRC   &kp BACKSPACE
-&kp LEFT_SHIFT   &trans  &trans    &trans      &trans                         &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp LESS_THAN   &kp GT     &trans
-&trans           &trans  &trans    &trans      &trans       &trans    &trans  &kp ENTER                                    &trans          &trans     &trans
+&kp EXCLAMATION  &kp AT         &kp HASH      &kp DOLLAR  &kp PERCENT                    &kp CARET             &kp AMPERSAND          &kp ASTERISK    &kp MINUS  &kp EQUAL
+&kp CARET        &kp AMPERSAND  &kp ASTERISK  &kp EQUAL   &kp PLUS                       &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LEFT_BRACE  &kp RBRC   &kp BACKSPACE
+&kp LEFT_SHIFT   &trans         &trans        &trans      &trans                         &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp LESS_THAN   &kp GT     &trans
+&kp LEFT_GUI     &trans         &trans        &trans      &trans       &trans    &trans  &kp ENTER                                    &trans          &trans     &trans
             >;
 
             sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
@@ -245,10 +245,10 @@
 
         Number {
             bindings = <
-&kp NUMBER_1    &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp N5                    &trans  &trans          &kp UP_ARROW    &trans           &trans
-&kp NUMBER_6    &kp N7        &kp N8        &kp N9        &kp N0                    &trans  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp BACKSPACE
-&kp LEFT_SHIFT  &trans        &trans        &trans        &trans                    &trans  &trans          &trans          &trans           &trans
-&kp LEFT_GUI    &trans        &kp LCTRL     &trans        &trans  &trans    &trans  &trans                  &trans          &trans           &trans
+&kp NUMBER_1    &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp N5                                        &trans  &trans          &kp UP_ARROW    &trans           &trans
+&kp NUMBER_6    &kp N7        &kp N8        &kp N9        &kp N0                                        &trans  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp BACKSPACE
+&kp LEFT_SHIFT  &trans        &trans        &trans        &trans                                        &trans  &trans          &trans          &trans           &trans
+&kp LEFT_GUI    &trans        &kp LCTRL     &trans        &kp C_VOLUME_DOWN  &kp C_VOLUME_UP    &trans  &trans                  &trans          &trans           &kp K_MUTE
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
@@ -267,10 +267,10 @@
 
         WIRELESS {
             bindings = <
-&bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                              &bt BT_SEL 0    &bt BT_SEL 1  &trans          &trans          &trans
-&kp LEFT_GUI    &trans        &trans        &trans        &trans                                    &bt BT_CLR      &trans        &kp LEFT_ARROW  &kp UP_ARROW    &kp RIGHT_ARROW
-&kp LEFT_SHIFT  &trans        &trans        &trans        &trans                                    &trans          &trans        &trans          &kp DOWN_ARROW  &trans
-&kp LCTRL       &trans        &trans        &trans        &bt BT_CLR    &bootloader    &bootloader  &studio_unlock                &trans          &trans          &trans
+&kp F1          &kp F2  &kp F3  &kp F4   &kp F5                                  &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4
+&kp F6          &kp F7  &kp F8  &kp F9   &kp F10                                 &bt BT_CLR      &trans        &kp LEFT_ARROW  &kp UP_ARROW    &kp RIGHT_ARROW
+&kp LEFT_SHIFT  &trans  &trans  &kp F11  &kp F12                                 &trans          &trans        &trans          &kp DOWN_ARROW  &trans
+&kp LCTRL       &trans  &trans  &trans   &bt BT_CLR  &bootloader    &bootloader  &studio_unlock                &trans          &trans          &trans
             >;
 
             sensor-bindings = <&inc_dec_kp RIGHT_ARROW LEFT_ARROW>;
