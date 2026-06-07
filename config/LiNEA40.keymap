@@ -76,8 +76,8 @@
             key-positions = <7 8>;
         };
 
-        InsertKey {
-            bindings = <&kp INS>;
+        mouse_toggle {
+            bindings = <&tog 1>;
             key-positions = <6 7>;
         };
 
