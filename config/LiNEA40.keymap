@@ -8,12 +8,11 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
-#define MOUSE 1
-#define MARK 2
-#define CURSOR 3
-#define FUNCTION 4
-#define SCROLL 5
-#define WIRELESS 6
+#define MARK 1
+#define CURSOR 2
+#define FUNCTION 3
+#define SCROLL 4
+#define WIRELESS 5
 
 //mouse cursol
 
@@ -76,19 +75,19 @@
             key-positions = <7 8>;
         };
 
-        mouse_toggle {
-            bindings = <&tog 1>;
-            key-positions = <6 7>;
+        LeftClick {
+            bindings = <&mkp MB1>;
+            key-positions = <16 17>;
+        };
+
+        RightClick {
+            bindings = <&mkp MB2>;
+            key-positions = <17 18>;
         };
 
         CenterClick {
             bindings = <&mkp MB3>;
-            key-positions = <17 16>;
-        };
-
-        PrevClick {
-            bindings = <&mkp MB4>;
-            key-positions = <27 28>;
+            key-positions = <6 7>;
         };
 
         ClickNext {
@@ -103,7 +102,7 @@
 
         inner_brace {
             bindings = <&inner_brace>;
-            key-positions = <17 18>;
+            key-positions = <27 28>;
         };
 
         inner_bracket {
@@ -217,19 +216,10 @@
 &kp Q         &kp W         &kp E             &kp R    &kp T                                         &kp Y        &kp U  &kp I         &kp O          &kp P
 &kp A         &kp S         &kp D             &kp F    &kp G                                         &kp H        &kp J  &kp K         &kp L          &kp MINUS
 &kp Z         &kp X         &kp C             &kp V    &kp B                                         &kp N        &kp M  &kp COMMA     &kp DOT        &kp SLASH
-&kp LEFT_GUI  &kp LEFT_ALT  &kp LEFT_CONTROL  &kp INS  &kp LEFT_SHIFT  &lt 2 SPACE    &kp BACKSPACE  &lt 3 ENTER         &lt 5 ESCAPE  &kp BACKSLASH  &kp SINGLE_QUOTE
+&kp LEFT_GUI  &kp LEFT_ALT  &kp LEFT_CONTROL  &kp INS  &kp LEFT_SHIFT  &lt 1 SPACE    &kp BACKSPACE  &lt 2 ENTER         &lt 4 ESCAPE  &kp BACKSLASH  &kp SINGLE_QUOTE
             >;
 
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
-        };
-
-        MOUSE {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans    &trans    &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &mkp MB1  &mkp MB2  &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans    &trans    &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans            &trans    &trans  &trans
-            >;
         };
 
         MARK {
