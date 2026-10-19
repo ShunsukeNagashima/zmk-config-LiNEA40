@@ -1,0 +1,9 @@
+description: Select and persist this keyboard's Bluetooth device name
+compatible: "linea40,behavior-bluetooth-name"
+include: zero_param.yaml
+
+properties:
+  device-name:
+    type: string
+    required: true
+    description: Bluetooth name to save on this keyboard when the binding is pressed

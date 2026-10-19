@@ -1,0 +1,5 @@
+name: linea40-bluetooth-name
+build:
+  cmake: .
+  settings:
+    dts_root: .

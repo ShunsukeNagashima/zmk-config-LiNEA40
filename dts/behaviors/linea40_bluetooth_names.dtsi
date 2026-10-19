@@ -1,0 +1,17 @@
+/ {
+    behaviors {
+        bt_name_home: bluetooth_name_home {
+            compatible = "linea40,behavior-bluetooth-name";
+            #binding-cells = <0>;
+            display-name = "Bluetooth Name: Home";
+            device-name = "LiNEA40-Home";
+        };
+
+        bt_name_work: bluetooth_name_work {
+            compatible = "linea40,behavior-bluetooth-name";
+            #binding-cells = <0>;
+            display-name = "Bluetooth Name: Work";
+            device-name = "LiNEA40-Work";
+        };
+    };
+};
