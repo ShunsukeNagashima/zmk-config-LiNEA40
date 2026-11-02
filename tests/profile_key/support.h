@@ -43,6 +43,17 @@ struct behavior_driver_api {
 
 const struct device *zmk_behavior_get_binding(const char *name);
 int zmk_ble_active_profile_index(void);
+struct zmk_keycode_state_changed {
+    uint16_t usage_page;
+    uint32_t keycode;
+    uint8_t implicit_modifiers;
+    uint8_t explicit_modifiers;
+    bool state;
+    int64_t timestamp;
+};
+struct zmk_keycode_state_changed zmk_keycode_state_changed_from_encoded(uint32_t code, bool pressed,
+                                                                        int64_t timestamp);
+int raise_zmk_keycode_state_changed(struct zmk_keycode_state_changed event);
 int raise_zmk_keycode_state_changed_from_encoded(uint32_t code, bool pressed, int64_t timestamp);
 int zmk_behavior_get_empty_param_metadata(const struct device *dev,
                                           struct behavior_parameter_metadata *metadata);
@@ -52,16 +63,22 @@ int zmk_behavior_get_empty_param_metadata(const struct device *dev,
 #define TEST_CTRL 0x000700e0u
 #define TEST_MAC_INPUT 0x0807002cu
 #define TEST_WINDOWS_INPUT 0x04070035u
+#define TEST_GRAVE 0x00070035u
+#define TEST_ALT 0x000700e2u
+#define LEFT_CONTROL TEST_CTRL
 
 #define TEST_PROP_0_mac_keycode TEST_GUI
 #define TEST_PROP_0_windows_keycode TEST_CTRL
 #define TEST_PROP_0_windows_profile 1
+#define TEST_PROP_0_windows_separate_mod_release false
 #define TEST_PROP_1_mac_keycode TEST_CTRL
 #define TEST_PROP_1_windows_keycode TEST_GUI
 #define TEST_PROP_1_windows_profile 1
+#define TEST_PROP_1_windows_separate_mod_release false
 #define TEST_PROP_2_mac_keycode TEST_MAC_INPUT
 #define TEST_PROP_2_windows_keycode TEST_WINDOWS_INPUT
 #define TEST_PROP_2_windows_profile 1
+#define TEST_PROP_2_windows_separate_mod_release true
 #define DT_INST_PROP(n, prop) TEST_PROP_##n##_##prop
 #define DT_INST_FOREACH_STATUS_OKAY(fn) fn(0) fn(1) fn(2)
 #define BEHAVIOR_DT_INST_DEFINE(n, init, pm, data, config, level, priority, api)                   \

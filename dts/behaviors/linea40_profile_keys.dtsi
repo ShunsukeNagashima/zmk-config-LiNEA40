@@ -40,6 +40,7 @@
             windows-profile = <LINEA40_WINDOWS_PROFILE>;
             mac-keycode = <LG(SPACE)>;
             windows-keycode = <LA(GRAVE)>;
+            windows-separate-mod-release;
         };
     };
 };

@@ -15,3 +15,6 @@ properties:
     type: int
     required: true
     description: Encoded ZMK keycode for Windows, including any implicit modifiers
+  windows-separate-mod-release:
+    type: boolean
+    description: Release the Windows shortcut key before its modifiers; Mac is unchanged

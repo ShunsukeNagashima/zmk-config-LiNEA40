@@ -10,8 +10,22 @@ static struct {
     uint32_t code;
     bool pressed;
     int64_t timestamp;
+    uint8_t implicit_modifiers;
+    uint8_t explicit_modifiers;
+    uint8_t reported_modifiers;
 } output[64];
 static size_t output_count;
+static int modifier_counts[8];
+
+static uint8_t held_modifiers(void) {
+    uint8_t mask = 0;
+    for (int i = 0; i < 8; i++) {
+        if (modifier_counts[i] > 0) {
+            mask |= 1u << i;
+        }
+    }
+    return mask;
+}
 
 const struct device *zmk_behavior_get_binding(const char *name) {
     if (strcmp(name, "command") == 0) {
@@ -28,13 +42,50 @@ const struct device *zmk_behavior_get_binding(const char *name) {
 
 int zmk_ble_active_profile_index(void) { return active_profile; }
 
-int raise_zmk_keycode_state_changed_from_encoded(uint32_t code, bool pressed, int64_t timestamp) {
+// Same encoded-key decoding as ZMK v0.2.1's keycode_state_changed.h.
+struct zmk_keycode_state_changed zmk_keycode_state_changed_from_encoded(uint32_t code, bool pressed,
+                                                                        int64_t timestamp) {
+    uint16_t page = (code >> 16) & 0xff;
+    uint16_t id = code & 0xffff;
+    bool modifier = page == 7 && id >= 0xe0 && id <= 0xe7;
+    return (struct zmk_keycode_state_changed){
+        .usage_page = page ? page : 7,
+        .keycode = id,
+        .implicit_modifiers = modifier ? 0 : code >> 24,
+        .explicit_modifiers = modifier ? code >> 24 : 0,
+        .state = pressed,
+        .timestamp = timestamp,
+    };
+}
+
+int raise_zmk_keycode_state_changed(struct zmk_keycode_state_changed event) {
     assert(output_count < sizeof(output) / sizeof(output[0]));
-    output[output_count].code = code;
-    output[output_count].pressed = pressed;
-    output[output_count].timestamp = timestamp;
+    // Model ZMK HID's explicit modifier reference counts to check ownership/release order.
+    for (int i = 0; i < 8; i++) {
+        int delta = event.state ? 1 : -1;
+        if (event.usage_page == 7 && event.keycode == (uint32_t)(0xe0 + i)) {
+            modifier_counts[i] += delta;
+        }
+        if (event.explicit_modifiers & (1u << i)) {
+            modifier_counts[i] += delta;
+        }
+        assert(modifier_counts[i] >= 0);
+    }
+    output[output_count].code = ((uint32_t)event.implicit_modifiers << 24) |
+                                ((uint32_t)event.usage_page << 16) | event.keycode;
+    output[output_count].pressed = event.state;
+    output[output_count].timestamp = event.timestamp;
+    output[output_count].implicit_modifiers = event.implicit_modifiers;
+    output[output_count].explicit_modifiers = event.explicit_modifiers;
+    output[output_count].reported_modifiers =
+        held_modifiers() | (event.state ? event.implicit_modifiers : 0);
     output_count++;
     return 0;
+}
+
+int raise_zmk_keycode_state_changed_from_encoded(uint32_t code, bool pressed, int64_t timestamp) {
+    return raise_zmk_keycode_state_changed(
+        zmk_keycode_state_changed_from_encoded(code, pressed, timestamp));
 }
 
 int zmk_behavior_get_empty_param_metadata(const struct device *dev,
@@ -53,6 +104,34 @@ static void expect_tap(struct zmk_behavior_binding *binding, uint32_t expected) 
     assert(output_count == 2);
     assert(output[0].code == expected && output[0].pressed && output[0].timestamp == 100);
     assert(output[1].code == expected && !output[1].pressed && output[1].timestamp == 200);
+    // The ordinary Mac/Windows key path must not acquire explicit shortcut modifiers.
+    assert(output[0].explicit_modifiers == 0 && output[1].explicit_modifiers == 0);
+}
+
+static void expect_windows_input(struct zmk_behavior_binding *binding, int next_profile) {
+    struct zmk_behavior_binding_event event = {.position = UINT32_MAX, .timestamp = 100};
+    output_count = 0;
+    uint8_t existing_modifiers = held_modifiers();
+    active_profile = 1;
+    assert(on_binding_pressed(binding, event) == 0);
+    assert(on_binding_pressed(binding, event) == -EBUSY);
+    active_profile = next_profile;
+    event.timestamp = 200;
+    assert(on_binding_released(binding, event) == 0);
+    assert(on_binding_released(binding, event) == 0);
+    assert(output_count == 3);
+    // One combined Alt+Grave press; then Grave up with Alt held, followed by Alt up.
+    assert(output[0].code == TEST_GRAVE && output[0].pressed);
+    assert(output[0].explicit_modifiers == 4 && output[0].implicit_modifiers == 0);
+    assert(output[0].timestamp == 100);
+    assert(output[1].code == TEST_GRAVE && !output[1].pressed);
+    assert(output[1].explicit_modifiers == 0 && output[1].implicit_modifiers == 0);
+    assert(output[2].code == TEST_ALT && !output[2].pressed);
+    assert(output[2].explicit_modifiers == 0 && output[2].implicit_modifiers == 0);
+    assert(output[1].timestamp == 200 && output[2].timestamp == 200);
+    assert(output[0].reported_modifiers == (existing_modifiers | 4));
+    assert(output[1].reported_modifiers == (existing_modifiers | 4));
+    assert(output[2].reported_modifiers == existing_modifiers);
 }
 
 int main(void) {
@@ -66,7 +145,7 @@ int main(void) {
     active_profile = 1;
     expect_tap(&command, TEST_CTRL);
     expect_tap(&control, TEST_GUI);
-    expect_tap(&input, TEST_WINDOWS_INPUT);
+    expect_windows_input(&input, 1);
 
     for (active_profile = 0; active_profile < 5; active_profile++) {
         if (active_profile == 1) {
@@ -102,14 +181,29 @@ int main(void) {
     assert(output[0].code == TEST_CTRL && output[3].code == TEST_CTRL);
     assert(output[1].code == TEST_GUI && output[2].code == TEST_GUI);
 
-    // Combo virtual positions and encoded shortcut modifiers are preserved across a switch.
+    // The Windows release sequence remains paired even after switching to any Mac profile.
+    for (int profile = 0; profile < 5; profile++) {
+        expect_windows_input(&input, profile);
+    }
+
+    // A Mac shortcut pressed before a switch to Windows must keep the original release.
     event.position = UINT32_MAX;
-    active_profile = 1;
+    active_profile = 0;
     output_count = 0;
     assert(on_binding_pressed(&input, event) == 0);
-    active_profile = 0;
+    active_profile = 1;
     assert(on_binding_released(&input, event) == 0);
-    assert(output_count == 2 && output[1].code == TEST_WINDOWS_INPUT);
+    assert(output_count == 2 && output[0].code == TEST_MAC_INPUT);
+    assert(output[1].code == TEST_MAC_INPUT && !output[1].pressed);
+    assert(output[0].explicit_modifiers == 0 && output[1].explicit_modifiers == 0);
+    assert(output[0].reported_modifiers == 8 && output[1].reported_modifiers == 0);
+
+    // Releasing the shortcut must not release an independently held physical Alt key.
+    assert(raise_zmk_keycode_state_changed_from_encoded(TEST_ALT, true, 300) == 0);
+    expect_windows_input(&input, 1);
+    assert(held_modifiers() == 4);
+    assert(raise_zmk_keycode_state_changed_from_encoded(TEST_ALT, false, 400) == 0);
+    assert(held_modifiers() == 0);
 
     // Duplicate use cannot replace a held key or release it from a different position.
     event.position = 30;

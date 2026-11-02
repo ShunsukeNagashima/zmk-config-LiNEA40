@@ -20,6 +20,9 @@ Windows側は、日本語IMEのハードウェアキーボードレイアウト�
 IMEはWindows標準のMicrosoft IMEを想定しています。
 日本語のMicrosoft IMEを選択した状態で、`A`＋左Shiftにより「あ」と「A」を切り替えます。
 入力言語そのものを切り替える操作ではありません。
+Windowsの入力切り替えだけは、バッククォートを離してからAltを離す順序で送信します。
+`os_input` の `windows-separate-mod-release` で指定しており、Mac用プロファイルの
+Command＋Spaceや他のキーには適用しません。全OS共通の修飾キー分離設定は使用しません。
 別のIMEやカスタムキー設定で動作しない場合は、そのIMEのオン／オフ操作に合わせて
 `dts/behaviors/linea40_profile_keys.dtsi` の `os_input` の `windows-keycode` を変更します。
 
