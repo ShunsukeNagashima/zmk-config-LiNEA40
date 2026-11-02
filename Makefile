@@ -14,6 +14,7 @@ build: $(TARGET_LEFT) $(TARGET_RIGHT)
 test:
 	python3 tests/profile_key/run.py
 	python3 scripts/generate_os_preview.py --check
+	python3 tests/os_preview/test_sync.py
 
 preview:
 	python3 scripts/generate_os_preview.py

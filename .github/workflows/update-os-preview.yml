@@ -1,0 +1,37 @@
+name: Update OS preview
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - config/LiNEA40.keymap
+      - config/LiNEA40.json
+      - config/LiNEA40-OS-preview.keymap
+      - config/LiNEA40-OS-preview.json
+      - dts/behaviors/linea40_profile_keys.dtsi
+      - scripts/generate_os_preview.py
+      - scripts/update_os_preview.sh
+      - .github/workflows/update-os-preview.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-os-preview-main
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # A queued run should process the latest editor save, not an older event SHA.
+          ref: main
+      - name: Regenerate and commit comparison
+        run: bash scripts/update_os_preview.sh

@@ -105,7 +105,8 @@ def generate():
     banner = (
         "// GENERATED COMPARISON ONLY - do not edit or flash this keymap.\n"
         "// Edit config/LiNEA40.keymap and dts/behaviors/linea40_profile_keys.dtsi,\n"
-        "// then run: make preview\n"
+        "// main: GitHub Actions regenerates this file after each source change.\n"
+        "// For local changes, run: make preview\n"
         f"// Windows layers show Bluetooth profile {profile}; Mac layers show other profiles.\n"
         "// The firmware build continues to use config/LiNEA40.keymap.\n\n"
     )

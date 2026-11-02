@@ -63,7 +63,18 @@ GitHub連携のKeymap Editorで、ブランチを `main`、キーマップを **
 Macの表示には **macOS** を選びます。この表示設定は全レイヤー共通で、ファームウェアの動作には影響しません。
 
 このキーマップは**比較専用の自動生成データ**です。ここを編集しても本体用ファームウェアには反映されません。
-実際の変更は `LiNEA40.keymap` または `dts/behaviors/linea40_profile_keys.dtsi` に行い、`make preview` で再生成します。
+実際の変更は `LiNEA40.keymap` または `dts/behaviors/linea40_profile_keys.dtsi` に行います。
+
+**Keymap Editorから `main` に保存・コミットすると、比較用表示も自動更新されます。**
+GitHub Actionsの **Update OS preview** が比較用の2ファイルを再生成し、差分がある場合だけ自動コミットします。
+処理が完了したらKeymap Editorを再読み込みし、`LiNEA40-OS-preview` を選んでください。
+画面で編集中の段階では更新されず、GitHubへのコミット後に反映されます。
+
+自動更新は `main` が対象です。ローカルや別ブランチで確認したい場合は `make preview` を使えます。
+処理中に次の変更が保存された場合は、最新の設定から再生成して反映します。
+自動コミットが次のワークフローを起動することはなく、本体用ファームウェアは元の編集コミットでビルドされます。
+自動更新に失敗した場合はActionsの実行結果を確認し、**Update OS preview → Run workflow** から再実行できます。
+
 `make test` では比較データが最新の設定と一致することも確認します。
 ビルド対象は引き続き `LiNEA40` で、比較用レイヤーは本体には追加されません。
 
