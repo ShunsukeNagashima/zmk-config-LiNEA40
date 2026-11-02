@@ -1,0 +1,36 @@
+#include <dt-bindings/zmk/keys.h>
+
+#ifndef LINEA40_WINDOWS_PROFILE
+#define LINEA40_WINDOWS_PROFILE 1
+#endif
+
+/ {
+    behaviors {
+        os_command: profile_command {
+            compatible = "linea40,behavior-profile-key";
+            #binding-cells = <0>;
+            display-name = "Profile Key: Command / Ctrl";
+            windows-profile = <LINEA40_WINDOWS_PROFILE>;
+            mac-keycode = <LEFT_GUI>;
+            windows-keycode = <LEFT_CONTROL>;
+        };
+
+        os_control: profile_control {
+            compatible = "linea40,behavior-profile-key";
+            #binding-cells = <0>;
+            display-name = "Profile Key: Ctrl / Windows";
+            windows-profile = <LINEA40_WINDOWS_PROFILE>;
+            mac-keycode = <LEFT_CONTROL>;
+            windows-keycode = <LEFT_GUI>;
+        };
+
+        os_input: profile_input {
+            compatible = "linea40,behavior-profile-key";
+            #binding-cells = <0>;
+            display-name = "Profile Key: Input Switch";
+            windows-profile = <LINEA40_WINDOWS_PROFILE>;
+            mac-keycode = <LG(SPACE)>;
+            windows-keycode = <LA(GRAVE)>;
+        };
+    };
+};

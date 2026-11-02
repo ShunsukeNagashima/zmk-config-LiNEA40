@@ -1,5 +1,53 @@
 # LiNEA40 ZMK config
 
+## BluetoothプロファイルごとのMac／Windows配列
+
+`config/LiNEA40.keymap` では、プロファイル **1をWindows用**、**0・2・3・4をMac用**にしています。
+Escapeを長押しして無線設定レイヤーに入り、`U` の位置でプロファイル1を選びます。
+Macへ戻るときは `Y`（0）、`I`（2）、`O`（3）、`P`（4）の位置で接続先を選びます。
+
+| キー位置 | Mac用プロファイル | Windows用プロファイル1 |
+| --- | --- | --- |
+| 左下のCommand | Command | Ctrl |
+| 左下のCtrl | Ctrl | Windowsキー |
+| 左下のOption | Option | Alt |
+| `A`＋左Shiftの同時押し | Command＋Space | Alt＋バッククォート（日本語入力オン／オフ） |
+
+通常・記号・数字レイヤーの対象キーに適用します。
+文字、数字、マウス操作、レイヤー番号、ファンクション／無線設定レイヤー固有のキーは従来どおりです。
+Windows側は、日本語IMEのハードウェアキーボードレイアウトを英語（101/102キー、US配列）に設定してください。
+IMEはWindows標準のMicrosoft IMEを想定しています。
+日本語のMicrosoft IMEを選択した状態で、`A`＋左Shiftにより「あ」と「A」を切り替えます。
+入力言語そのものを切り替える操作ではありません。
+別のIMEやカスタムキー設定で動作しない場合は、そのIMEのオン／オフ操作に合わせて
+`dts/behaviors/linea40_profile_keys.dtsi` の `os_input` の `windows-keycode` を変更します。
+
+対象キーを押すたびに、ZMKが保持する選択中のBluetoothプロファイルを参照します。
+再起動後も復元されたプロファイルに従い、別途OSモードを切り替える必要はありません。
+USB出力時も選択中のBluetoothプロファイルに従います。
+キーを押したままプロファイルを変更した場合は、押下時のキーコードでキーを解除します。
+Bluetooth名のHome／Work切り替えとは独立しており、ペアリングの消去は不要です。
+
+### Studioで保存済みのキーマップを使う場合
+
+保存済みキーマップがある場合、ファームウェア更新だけではキーの動作が置き換わりません。
+Studioで、通常・記号・数字レイヤーの該当キーを以下に置き換えて保存してください。
+透過キーはそのままで構いません。
+
+- Commandの位置：`Profile Key: Command / Ctrl`
+- Ctrlの位置：`Profile Key: Ctrl / Windows`
+
+`A`＋左Shiftの同時押しはファームウェア側のコンボ設定で切り替わるため、Studioでの割り当て変更は不要です。
+入力切り替えを別の単独キーに置く場合は `Profile Key: Input Switch` を使えます。
+
+同じ動作を複数レイヤーの同じキー位置に使えます。
+各動作は同時に1か所の押下を扱うため、複数の物理キーに割り当てて同時押しする用途には使わないでください。
+
+### Windows用プロファイル番号の変更
+
+`dts/behaviors/linea40_profile_keys.dtsi` の `LINEA40_WINDOWS_PROFILE` を変更して再ビルドします。
+対象の動作がこの設定を共有します。
+
 ## Bluetooth名を本体ごとに選ぶ
 
 同じ左右のファームウェアを2台のLiNEA40に書き込み、各キーボードで名前を選択できます。
@@ -46,7 +94,15 @@ GitHub Actionsでは `zephyr/module.yml` により、このリポジトリの独
 Dockerを使う既存のローカルビルドは `make build container_name=<コンテナ名>` で実行します。
 手動でビルドする場合は、既存の `ZMK_EXTRA_MODULES` にこのリポジトリの絶対パスを追加してください。
 
+## テスト
+
+`make test` で、プロファイル別キー処理のホストテストを実行します（Python 3とCコンパイラが必要）。
+実際のドライバをZMK APIの代替実装と組み合わせ、全プロファイル、切り替え中のキー解除、
+修飾キーの同時押し、ショートカット、Studioメタデータ有無を検証します。
+ファームウェア全体のビルド・実機でのBluetooth／USB入力確認は別途必要です。
+
 ## 参考
 
 - [ZMK Bluetooth名変更処理](https://github.com/zmkfirmware/zmk/blob/v0.2.1/app/src/ble.c)
 - [Zephyrの名前保存処理](https://github.com/zmkfirmware/zephyr/blob/v3.5.0%2Bzmk-fixes/subsys/bluetooth/host/hci_core.c)
+- [Microsoft IMEのショートカット](https://support.microsoft.com/en-us/windows/hardware/input-devices/microsoft-japanese-ime)

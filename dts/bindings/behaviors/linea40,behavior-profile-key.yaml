@@ -1,0 +1,17 @@
+description: Send an OS-specific key according to the selected Bluetooth profile
+compatible: "linea40,behavior-profile-key"
+include: zero_param.yaml
+
+properties:
+  windows-profile:
+    type: int
+    required: true
+    description: Bluetooth profile that uses windows-keycode; all others use mac-keycode
+  mac-keycode:
+    type: int
+    required: true
+    description: Encoded ZMK keycode for Mac, including any implicit modifiers
+  windows-keycode:
+    type: int
+    required: true
+    description: Encoded ZMK keycode for Windows, including any implicit modifiers

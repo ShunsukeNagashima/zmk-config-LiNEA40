@@ -5,6 +5,7 @@
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <behaviors.dtsi>
 #include <behaviors/linea40_bluetooth_names.dtsi>
+#include <behaviors/linea40_profile_keys.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
@@ -112,7 +113,7 @@
         };
 
         change_source {
-            bindings = <&kp LG(SPACE)>;
+            bindings = <&os_input>;
             key-positions = <10 34>;
         };
 
@@ -217,7 +218,7 @@
 &kp Q         &kp W         &kp E             &kp R    &kp T                                         &kp Y        &kp U  &kp I         &kp O          &kp P
 &kp A         &kp S         &kp D             &kp F    &kp G                                         &kp H        &kp J  &kp K         &kp L          &kp MINUS
 &kp Z         &kp X         &kp C             &kp V    &kp B                                         &kp N        &kp M  &kp COMMA     &kp DOT        &kp SLASH
-&kp LEFT_GUI  &kp LEFT_ALT  &kp LEFT_CONTROL  &kp INS  &kp LEFT_SHIFT  &lt 1 SPACE    &kp BACKSPACE  &lt 2 ENTER         &lt 4 ESCAPE  &kp BACKSLASH  &kp SINGLE_QUOTE
+&os_command   &kp LEFT_ALT  &os_control       &kp INS  &kp LEFT_SHIFT  &lt 1 SPACE    &kp BACKSPACE  &lt 2 ENTER         &lt 4 ESCAPE  &kp BACKSLASH  &kp SINGLE_QUOTE
             >;
 
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
@@ -228,7 +229,7 @@
 &kp EXCLAMATION  &kp AT         &kp HASH      &kp DOLLAR  &kp PERCENT                    &kp CARET             &kp AMPERSAND          &kp ASTERISK    &kp MINUS  &kp EQUAL
 &kp CARET        &kp AMPERSAND  &kp ASTERISK  &kp EQUAL   &kp PLUS                       &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LEFT_BRACE  &kp RBRC   &kp BACKSPACE
 &kp LEFT_SHIFT   &trans         &trans        &trans      &trans                         &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp LESS_THAN   &kp GT     &trans
-&kp LEFT_GUI     &trans         &trans        &trans      &trans       &trans    &trans  &kp ENTER                                    &trans          &trans     &trans
+&os_command      &trans         &trans        &trans      &trans       &trans    &trans  &kp ENTER                                    &trans          &trans     &trans
             >;
 
             sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
@@ -239,7 +240,7 @@
 &kp NUMBER_1    &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp N5                            &trans  &trans          &kp UP_ARROW    &trans           &trans
 &kp NUMBER_6    &kp N7        &kp N8        &kp N9        &kp N0                            &trans  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp BACKSPACE
 &kp LEFT_SHIFT  &trans        &trans        &trans        &trans                            &trans  &trans          &trans          &trans           &trans
-&kp LEFT_GUI    &trans        &kp LCTRL     &trans        &kp LEFT_SHIFT  &trans    &trans  &trans                  &trans          &trans           &kp K_MUTE
+&os_command     &trans        &os_control   &trans        &kp LEFT_SHIFT  &trans    &trans  &trans                  &trans          &trans           &kp K_MUTE
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
