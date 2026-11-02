@@ -1,6 +1,7 @@
 // GENERATED COMPARISON ONLY - do not edit or flash this keymap.
 // Edit config/LiNEA40.keymap and dts/behaviors/linea40_profile_keys.dtsi,
-// then run: make preview
+// main: GitHub Actions regenerates this file after each source change.
+// For local changes, run: make preview
 // Windows layers show Bluetooth profile 1; Mac layers show other profiles.
 // The firmware build continues to use config/LiNEA40.keymap.
 
