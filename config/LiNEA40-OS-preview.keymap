@@ -1,0 +1,436 @@
+// GENERATED COMPARISON ONLY - do not edit or flash this keymap.
+// Edit config/LiNEA40.keymap and dts/behaviors/linea40_profile_keys.dtsi,
+// then run: make preview
+// Windows layers show Bluetooth profile 1; Mac layers show other profiles.
+// The firmware build continues to use config/LiNEA40.keymap.
+
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 150
+
+#include <dt-bindings/zmk/input_transform.h>
+#include <input/processors.dtsi>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <behaviors.dtsi>
+#include <behaviors/linea40_bluetooth_names.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
+
+#define MARK 1
+#define CURSOR 2
+#define FUNCTION 3
+#define SCROLL 4
+#define WIRELESS 5
+
+//mouse cursol
+
+&mmv {
+    delay-ms = <20>;
+    trigger-period-ms = <5>;
+    time-to-max-speed-ms = <100>;
+    acceleration-exponent = <2>;
+};
+
+//mouse scroll
+
+&msc {
+    delay-ms = <3>;
+    trigger-period-ms = <3>;
+    time-to-max-speed-ms = <100>;
+    acceleration-exponent = <0>;
+};
+
+/ {
+    input_processors {
+        zip_wheel_scaler: zip_wheel_scaler {
+            compatible = "zmk,input-processor-scaler";
+            #input-processor-cells = <2>;
+            type = <INPUT_EV_REL>;
+            codes = <INPUT_REL_WHEEL>;
+            track-remainders;
+        };
+    };
+};
+
+&msc_input_listener {
+    speed_up {
+        layers = <FUNCTION>;
+        input-processors = <&zip_wheel_scaler 3 1>; //スクロールを3倍速にする
+    };
+};
+
+&trackball_listener {
+    scroller {
+        layers = <SCROLL>;
+        input-processors =
+            <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,
+            <&zip_xy_to_scroll_mapper>;
+    };
+};
+
+/ {
+    combos {
+        compatible = "zmk,combos";
+
+        Mac_Tab {
+            bindings = <&kp TAB>;
+            key-positions = <11 12>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_Tab {
+            bindings = <&kp TAB>;
+            key-positions = <11 12>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_DeleteKey {
+            bindings = <&kp DEL>;
+            key-positions = <7 8>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_DeleteKey {
+            bindings = <&kp DEL>;
+            key-positions = <7 8>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_LeftClick {
+            bindings = <&mkp MB1>;
+            key-positions = <16 17>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_LeftClick {
+            bindings = <&mkp MB1>;
+            key-positions = <16 17>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_RightClick {
+            bindings = <&mkp MB2>;
+            key-positions = <17 18>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_RightClick {
+            bindings = <&mkp MB2>;
+            key-positions = <17 18>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_CenterClick {
+            bindings = <&mkp MB3>;
+            key-positions = <6 7>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_CenterClick {
+            bindings = <&mkp MB3>;
+            key-positions = <6 7>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_ClickNext {
+            bindings = <&mkp MB5>;
+            key-positions = <26 27>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_ClickNext {
+            bindings = <&mkp MB5>;
+            key-positions = <26 27>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_inner_paren {
+            bindings = <&inner_paren>;
+            key-positions = <15 16>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_inner_paren {
+            bindings = <&inner_paren>;
+            key-positions = <15 16>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_inner_brace {
+            bindings = <&inner_brace>;
+            key-positions = <27 28>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_inner_brace {
+            bindings = <&inner_brace>;
+            key-positions = <27 28>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_inner_bracket {
+            bindings = <&inner_bracket>;
+            key-positions = <25 26>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_inner_bracket {
+            bindings = <&inner_bracket>;
+            key-positions = <25 26>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_change_source {
+            bindings = <&kp LG(SPACE)>;
+            key-positions = <10 34>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_change_source {
+            bindings = <&kp LA(GRAVE)>;
+            key-positions = <10 34>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_shift_tab {
+            bindings = <&kp LS(TAB)>;
+            key-positions = <12 13>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_shift_tab {
+            bindings = <&kp LS(TAB)>;
+            key-positions = <12 13>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_backspace {
+            bindings = <&kp MINUS>;
+            key-positions = <8 9>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_backspace {
+            bindings = <&kp MINUS>;
+            key-positions = <8 9>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_semicolon {
+            bindings = <&kp SEMICOLON>;
+            key-positions = <18 19>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_semicolon {
+            bindings = <&kp SEMICOLON>;
+            key-positions = <18 19>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_grave {
+            bindings = <&kp GRAVE>;
+            key-positions = <1 2>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_grave {
+            bindings = <&kp GRAVE>;
+            key-positions = <1 2>;
+            layers = <5 6 7 8 9>;
+        };
+
+        Mac_tilde {
+            bindings = <&kp TILDE>;
+            key-positions = <2 3>;
+            layers = <0 1 2 3 4>;
+        };
+
+        Windows_tilde {
+            bindings = <&kp TILDE>;
+            key-positions = <2 3>;
+            layers = <5 6 7 8 9>;
+        };
+    };
+
+    behaviors {
+        re_kp: sensor_rotate_kp {
+            compatible = "zmk,behavior-sensor-rotate-var";
+            #sensor-binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        mouse_scrl: mouse_wheel_scrl {
+            compatible = "zmk,behavior-sensor-rotate-var";
+            #sensor-binding-cells = <2>;
+            bindings = <&msc>, <&msc>;
+
+            tap-ms = <20>;
+        };
+    };
+
+    macros {
+        inner_paren: m1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_PARENTHESIS &kp RIGHT_PARENTHESIS &kp LEFT_ARROW>;
+            label = "M1";
+        };
+
+        inner_brace: inner_brace {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_BRACE &kp RIGHT_BRACE &kp LEFT_ARROW>;
+            label = "INNER_BRACE";
+        };
+
+        inner_bracket: inner_bracket {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_BRACKET &kp RIGHT_BRACKET &kp LEFT_ARROW>;
+            label = "INNER_BRACKET";
+        };
+
+        inner_angle: inner_angle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LESS_THAN &kp GREATER_THAN &kp LEFT_ARROW>;
+            label = "INNER_ANGLE";
+        };
+
+        inner_quote: inner_quote {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp DOUBLE_QUOTES &kp DOUBLE_QUOTES &kp LEFT_ARROW>;
+            label = "INNER_QUOTE";
+        };
+
+        inner_single: inner_single {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp SINGLE_QUOTE &kp SINGLE_QUOTE &kp LEFT_ARROW>;
+            label = "INNER_SINGLE";
+        };
+
+        inner_back: inner_back {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp GRAVE &kp GRAVE &kp LEFT_ARROW>;
+            label = "INNER_BACK";
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        Mac_default_layer {
+            bindings = <
+&kp Q         &kp W         &kp E             &kp R    &kp T                                         &kp Y        &kp U  &kp I         &kp O          &kp P
+&kp A         &kp S         &kp D             &kp F    &kp G                                         &kp H        &kp J  &kp K         &kp L          &kp MINUS
+&kp Z         &kp X         &kp C             &kp V    &kp B                                         &kp N        &kp M  &kp COMMA     &kp DOT        &kp SLASH
+&kp LEFT_GUI   &kp LEFT_ALT  &kp LEFT_CONTROL       &kp INS  &kp LEFT_SHIFT  &lt 1 SPACE    &kp BACKSPACE  &lt 2 ENTER         &lt 4 ESCAPE  &kp BACKSLASH  &kp SINGLE_QUOTE
+            >;
+
+            sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
+        };
+
+        Mac_MARK {
+            bindings = <
+&kp EXCLAMATION  &kp AT         &kp HASH      &kp DOLLAR  &kp PERCENT                    &kp CARET             &kp AMPERSAND          &kp ASTERISK    &kp MINUS  &kp EQUAL
+&kp CARET        &kp AMPERSAND  &kp ASTERISK  &kp EQUAL   &kp PLUS                       &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LEFT_BRACE  &kp RBRC   &kp BACKSPACE
+&kp LEFT_SHIFT   &trans         &trans        &trans      &trans                         &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp LESS_THAN   &kp GT     &trans
+&kp LEFT_GUI      &trans         &trans        &trans      &trans       &trans    &trans  &kp ENTER                                    &trans          &trans     &trans
+            >;
+
+            sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
+        };
+
+        Mac_Number {
+            bindings = <
+&kp NUMBER_1    &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp N5                            &trans  &trans          &kp UP_ARROW    &trans           &trans
+&kp NUMBER_6    &kp N7        &kp N8        &kp N9        &kp N0                            &trans  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp BACKSPACE
+&kp LEFT_SHIFT  &trans        &trans        &trans        &trans                            &trans  &trans          &trans          &trans           &trans
+&kp LEFT_GUI     &trans        &kp LEFT_CONTROL   &trans        &kp LEFT_SHIFT  &trans    &trans  &trans                  &trans          &trans           &kp K_MUTE
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
+        };
+
+        Mac_Function {
+            bindings = <
+&kp F1      &kp F2  &kp F3  &kp F4   &kp F5                                        &trans        &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_PLUS
+&kp F6      &kp F7  &kp F8  &kp F9   &kp F10                                       &kp KP_SLASH  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_MINUS
+&trans      &trans  &trans  &kp F11  &kp F12                                       &kp UNDER     &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp ENTER
+&kp C_MUTE  &trans  &trans  &trans   &kp C_VOLUME_DOWN  &kp C_VOLUME_UP    &trans  &kp NUMBER_0                &kp NUMBER_0  &kp DOT       &kp QUESTION
+            >;
+
+            sensor-bindings = <&inc_dec_kp DOWN_ARROW UP_ARROW>;
+        };
+
+        Mac_WIRELESS {
+            bindings = <
+&kp F1          &kp F2  &kp F3  &kp F4   &kp F5                                  &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4
+&kp F6          &kp F7  &kp F8  &kp F9   &kp F10                                 &bt BT_CLR      &trans        &kp LEFT_ARROW  &kp UP_ARROW    &kp RIGHT_ARROW
+&kp LEFT_SHIFT  &trans  &trans  &kp F11  &kp F12                                 &bt_name_home   &bt_name_work &trans          &kp DOWN_ARROW  &trans
+&kp LCTRL       &trans  &trans  &trans   &bt BT_CLR  &bootloader    &bootloader  &studio_unlock                &trans          &trans          &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp RIGHT_ARROW LEFT_ARROW>;
+        };
+
+        Windows_default_layer {
+            bindings = <
+&kp Q         &kp W         &kp E             &kp R    &kp T                                         &kp Y        &kp U  &kp I         &kp O          &kp P
+&kp A         &kp S         &kp D             &kp F    &kp G                                         &kp H        &kp J  &kp K         &kp L          &kp MINUS
+&kp Z         &kp X         &kp C             &kp V    &kp B                                         &kp N        &kp M  &kp COMMA     &kp DOT        &kp SLASH
+&kp LEFT_CONTROL   &kp LEFT_ALT  &kp LEFT_GUI       &kp INS  &kp LEFT_SHIFT  &lt 6 SPACE    &kp BACKSPACE  &lt 7 ENTER         &lt 9 ESCAPE  &kp BACKSLASH  &kp SINGLE_QUOTE
+            >;
+
+            sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
+        };
+
+        Windows_MARK {
+            bindings = <
+&kp EXCLAMATION  &kp AT         &kp HASH      &kp DOLLAR  &kp PERCENT                    &kp CARET             &kp AMPERSAND          &kp ASTERISK    &kp MINUS  &kp EQUAL
+&kp CARET        &kp AMPERSAND  &kp ASTERISK  &kp EQUAL   &kp PLUS                       &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp LEFT_BRACE  &kp RBRC   &kp BACKSPACE
+&kp LEFT_SHIFT   &trans         &trans        &trans      &trans                         &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp LESS_THAN   &kp GT     &trans
+&kp LEFT_CONTROL      &trans         &trans        &trans      &trans       &trans    &trans  &kp ENTER                                    &trans          &trans     &trans
+            >;
+
+            sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
+        };
+
+        Windows_Number {
+            bindings = <
+&kp NUMBER_1    &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp N5                            &trans  &trans          &kp UP_ARROW    &trans           &trans
+&kp NUMBER_6    &kp N7        &kp N8        &kp N9        &kp N0                            &trans  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp BACKSPACE
+&kp LEFT_SHIFT  &trans        &trans        &trans        &trans                            &trans  &trans          &trans          &trans           &trans
+&kp LEFT_CONTROL     &trans        &kp LEFT_GUI   &trans        &kp LEFT_SHIFT  &trans    &trans  &trans                  &trans          &trans           &kp K_MUTE
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
+        };
+
+        Windows_Function {
+            bindings = <
+&kp F1      &kp F2  &kp F3  &kp F4   &kp F5                                        &trans        &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_PLUS
+&kp F6      &kp F7  &kp F8  &kp F9   &kp F10                                       &kp KP_SLASH  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_MINUS
+&trans      &trans  &trans  &kp F11  &kp F12                                       &kp UNDER     &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp ENTER
+&kp C_MUTE  &trans  &trans  &trans   &kp C_VOLUME_DOWN  &kp C_VOLUME_UP    &trans  &kp NUMBER_0                &kp NUMBER_0  &kp DOT       &kp QUESTION
+            >;
+
+            sensor-bindings = <&inc_dec_kp DOWN_ARROW UP_ARROW>;
+        };
+
+        Windows_WIRELESS {
+            bindings = <
+&kp F1          &kp F2  &kp F3  &kp F4   &kp F5                                  &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4
+&kp F6          &kp F7  &kp F8  &kp F9   &kp F10                                 &bt BT_CLR      &trans        &kp LEFT_ARROW  &kp UP_ARROW    &kp RIGHT_ARROW
+&kp LEFT_SHIFT  &trans  &trans  &kp F11  &kp F12                                 &bt_name_home   &bt_name_work &trans          &kp DOWN_ARROW  &trans
+&kp LCTRL       &trans  &trans  &trans   &bt BT_CLR  &bootloader    &bootloader  &studio_unlock                &trans          &trans          &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp RIGHT_ARROW LEFT_ARROW>;
+        };
+    };
+};

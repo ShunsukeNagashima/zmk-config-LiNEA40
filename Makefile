@@ -7,12 +7,16 @@ SRCS_RIGHT = $(shell find $(CONFIG_DIR) -type f ! -name "*_left*")
 TARGET_LEFT = ../zmk/app/build/left/zephyr/zmk.uf2
 TARGET_RIGHT = ../zmk/app/build/right/zephyr/zmk.uf2
 
-.PHONY: build clean test
+.PHONY: build clean test preview
 
 build: $(TARGET_LEFT) $(TARGET_RIGHT)
 
 test:
 	python3 tests/profile_key/run.py
+	python3 scripts/generate_os_preview.py --check
+
+preview:
+	python3 scripts/generate_os_preview.py
 
 #build: $(TARGET_RIGHT)
 

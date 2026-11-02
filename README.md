@@ -48,6 +48,25 @@ Studioで、通常・記号・数字レイヤーの該当キーを以下に置�
 `dts/behaviors/linea40_profile_keys.dtsi` の `LINEA40_WINDOWS_PROFILE` を変更して再ビルドします。
 対象の動作がこの設定を共有します。
 
+### Keymap EditorでMac／Windowsを見比べる
+
+GitHub連携のKeymap Editorで、ブランチを `main`、キーマップを **`LiNEA40-OS-preview`** に切り替えます。
+一覧に出ない場合はリポジトリを再読み込みしてください。
+
+- 通常配列：`Mac_default_layer`（0）と `Windows_default_layer`（5）を比較
+- 記号配列：`Mac_MARK`（1）と `Windows_MARK`（6）を比較
+- 数字配列：`Mac_Number`（2）と `Windows_Number`（7）を比較
+- 入力切り替え：Combosの `Mac_change_source` と `Windows_change_source` を比較
+
+独自キーを通常の `&kp` に展開しているため、CtrlやGUIキー、入力切り替えのショートカットを直接確認できます。
+エディターの歯車設定 → **Platform specific glyphs** を **Windows** にすると、GUIキーがWindowsマークになります。
+Macの表示には **macOS** を選びます。この表示設定は全レイヤー共通で、ファームウェアの動作には影響しません。
+
+このキーマップは**比較専用の自動生成データ**です。ここを編集しても本体用ファームウェアには反映されません。
+実際の変更は `LiNEA40.keymap` または `dts/behaviors/linea40_profile_keys.dtsi` に行い、`make preview` で再生成します。
+`make test` では比較データが最新の設定と一致することも確認します。
+ビルド対象は引き続き `LiNEA40` で、比較用レイヤーは本体には追加されません。
+
 ## Bluetooth名を本体ごとに選ぶ
 
 同じ左右のファームウェアを2台のLiNEA40に書き込み、各キーボードで名前を選択できます。
