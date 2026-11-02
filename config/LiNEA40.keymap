@@ -88,7 +88,7 @@
         };
 
         CenterClick {
-            bindings = <&mkp MB3>;
+            bindings = <&os_middle>;
             key-positions = <6 7>;
         };
 

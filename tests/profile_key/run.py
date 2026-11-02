@@ -2,13 +2,18 @@
 """Compile and exercise the production driver with host substitutes for ZMK APIs."""
 
 import os
-from pathlib import Path
 import subprocess
+import sys
 import tempfile
+from pathlib import Path
 
 
 def main():
-    test_dir = Path(__file__).resolve().parent
+    test_dir = (
+        Path(sys.argv[1]).resolve()
+        if len(sys.argv) > 1
+        else Path(__file__).resolve().parent
+    )
     with tempfile.TemporaryDirectory(prefix="linea40-profile-key-") as directory:
         temp = Path(directory)
         for name in (
@@ -33,10 +38,13 @@ def main():
                     "-Werror",
                     "-fsanitize=address,undefined",
                     f"-DCONFIG_ZMK_BEHAVIOR_METADATA={metadata}",
-                    "-I", str(temp),
-                    "-I", str(test_dir),
+                    "-I",
+                    str(temp),
+                    "-I",
+                    str(test_dir),
                     str(test_dir / "test.c"),
-                    "-o", str(binary),
+                    "-o",
+                    str(binary),
                 ],
                 check=True,
             )

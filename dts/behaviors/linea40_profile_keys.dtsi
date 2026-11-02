@@ -1,4 +1,5 @@
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
 
 #ifndef LINEA40_WINDOWS_PROFILE
 #define LINEA40_WINDOWS_PROFILE 1
@@ -6,6 +7,14 @@
 
 / {
     behaviors {
+        os_middle: profile_middle {
+            compatible = "linea40,behavior-profile-binding";
+            #binding-cells = <0>;
+            display-name = "Profile: Middle Click / Task View";
+            windows-profile = <LINEA40_WINDOWS_PROFILE>;
+            bindings = <&mkp MB3>, <&kp LG(TAB)>;
+        };
+
         os_command: profile_command {
             compatible = "linea40,behavior-profile-key";
             #binding-cells = <0>;

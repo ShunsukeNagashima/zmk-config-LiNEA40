@@ -42,6 +42,13 @@ def generate():
     profile = re.search(r"#define LINEA40_WINDOWS_PROFILE (\d+)", presets).group(1)
     replacements = {"Mac": {}, "Windows": {}}
     for label, body in re.findall(r"(\w+):\s*\w+\s*\{(.*?)\};", presets, re.DOTALL):
+        if 'compatible = "linea40,behavior-profile-binding";' in body:
+            bindings = re.search(r"bindings\s*=\s*<([^>]+)>\s*,\s*<([^>]+)>;", body)
+            if bindings is None:
+                raise ValueError(f"Expected Mac and Windows bindings in {label}")
+            for os_name, value in zip(("Mac", "Windows"), bindings.groups()):
+                replacements[os_name][label] = value.strip()
+            continue
         for os_name, prop in (("Mac", "mac-keycode"), ("Windows", "windows-keycode")):
             value = re.search(rf"{prop}\s*=\s*<([^>]+)>;", body)
             if value is None:
@@ -91,9 +98,15 @@ def generate():
                 if restriction
                 else range(count)
             )
-            restriction_text = "layers = <" + " ".join(str(i + offset) for i in indices) + ">;"
+            restriction_text = (
+                "layers = <" + " ".join(str(i + offset) for i in indices) + ">;"
+            )
             if restriction:
-                body = body[: restriction.start()] + restriction_text + body[restriction.end() :]
+                body = (
+                    body[: restriction.start()]
+                    + restriction_text
+                    + body[restriction.end() :]
+                )
             else:
                 body += "            " + restriction_text + "\n"
             rendered_combos.append(f"        {os_name}_{name} {{\n{body}        }};")
@@ -121,7 +134,9 @@ def generate():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="Fail if the preview is out of date")
+    parser.add_argument(
+        "--check", action="store_true", help="Fail if the preview is out of date"
+    )
     args = parser.parse_args()
     stale = []
     for path, content in generate().items():

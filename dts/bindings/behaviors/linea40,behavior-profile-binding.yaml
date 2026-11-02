@@ -1,0 +1,13 @@
+description: Select a Mac or Windows behavior using the active Bluetooth profile
+compatible: "linea40,behavior-profile-binding"
+include: zero_param.yaml
+
+properties:
+  windows-profile:
+    type: int
+    required: true
+    description: Bluetooth profile that uses the second binding; all others use the first
+  bindings:
+    type: phandle-array
+    required: true
+    description: Exactly two behaviors, Mac first and Windows second
